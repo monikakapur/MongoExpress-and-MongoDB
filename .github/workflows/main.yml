@@ -27,7 +27,8 @@ jobs:
 
       - name: Wait for pods to be ready
         run: |
-          kubectl rollout status deployment --all --timeout=180s
+          kubectl rollout status deployment/mongodb-deployment --timeout=180s
+          kubectl rollout status deployment/mongo-express --timeout=180s
           kubectl get pods
 
       - name: Verify Mongo Express UI endpoint
