@@ -23,7 +23,7 @@ jobs:
 
       - name: Deploy MongoDB and Mongo Express
         run: |
-          kubectl apply -f k8s/
+          kubectl apply -f 
 
       - name: Wait for pods to be ready
         run: |
@@ -33,4 +33,4 @@ jobs:
       - name: Verify Mongo Express UI endpoint
         run: |
           kubectl get svc
-          kubectl run curl-test --rm -i --restart=Never --image=curlimages/curl -- -I http://mongo-express:8081
+          kubectl run curl-test --rm -i --restart=Never --image=curlimages/curl -- -I http://mongo-express-service:8081
