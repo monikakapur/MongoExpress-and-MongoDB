@@ -1,4 +1,4 @@
-name: K8s MongoDB & Mongo Express CI
+name: MongoDB & Mongo Express CI
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  k8s-deploy-test:
+  deploy-test:
     runs-on: ubuntu-latest
 
     steps:
@@ -23,7 +23,7 @@ jobs:
 
       - name: Deploy MongoDB and Mongo Express
         run: |
-          kubectl apply -f 
+          kubectl apply -f .
 
       - name: Wait for pods to be ready
         run: |
