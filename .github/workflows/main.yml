@@ -1,1 +1,36 @@
+name: K8s MongoDB & Mongo Express CI
 
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  k8s-deploy-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create kind cluster
+        uses: helm/kind-action@v1.10.0
+        with:
+          cluster_name: codespace-mongo-cluster
+          wait: 90s
+
+      - name: Deploy MongoDB and Mongo Express
+        run: |
+          kubectl apply -f k8s/
+
+      - name: Wait for pods to be ready
+        run: |
+          kubectl get pods
+          kubectl rollout status deployment --all --timeout=180s
+
+      - name: Verify Mongo Express UI endpoint
+        run: |
+          kubectl get svc
+          kubectl run curl-test --rm -i --restart=Never --image=curlimages/curl -- -I http://mongo-express:8081
