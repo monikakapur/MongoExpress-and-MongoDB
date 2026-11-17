@@ -33,6 +33,8 @@ jobs:
 
       - name: Verify Mongo Express UI endpoint
         run: |
-          kubectl get svc
-          sleep 15
-          kubectl run curl-test --rm -i --restart=Never --image=curlimages/curl -- -I http://mongo-express-service:8081
+          kubectl get pods
+          kubectl logs deployment/mongo-express --tail=30 || true
+          kubectl run curl-test --rm -i --restart=Never --image=curlimages/curl -- \
+            --retry 5 --retry-delay 3 --retry-connrefused -I http://mongo-express-service:8081
+
