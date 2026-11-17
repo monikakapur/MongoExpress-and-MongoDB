@@ -33,6 +33,7 @@ jobs:
 
       - name: Verify Mongo Express UI endpoint
         run: |
+          sleep 60
           kubectl get pods
           kubectl logs deployment/mongo-express --tail=30 || true
           kubectl run curl-test --rm -i --restart=Never --image=curlimages/curl -- \
